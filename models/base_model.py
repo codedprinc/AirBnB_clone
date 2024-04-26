@@ -13,7 +13,7 @@ class BaseModel:
     / methods for other classes
     """
 
-    def __init__(self, *args. **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Instatiates an object with it' s attributes
         """
