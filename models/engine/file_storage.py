@@ -46,18 +46,11 @@ class FileStorage:
         otherwise, do nothing.
         If the file doesnt exist, no exception should be raised)
         """
-        if os.path.isfile(FileStorage.__file_path):
-            with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
-                try:
-                    obj_dict = json.load(f)
-
-                    for k, v in obj_dict.items():
-                        class_name, obj_id = key.split(".")
-
-                        cls = eval(class_name)
-
-                        inst = cls(**v)
-
-                        FileStorage.__objects[k] = inst
-                except Exception:
-                    pass
+        if os.path.exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path, 'r') as js_fl:
+                js_data = json.load(js_fl)
+                for k, v in js_data.items():
+                    clss_name, obj_id = k.split('.')
+                    module = __import__(clss_name.lower(), fromlist=[clss_name])
+                    class_ = getattr(module, clss_name)
+                    FileStorage.__objects[k] = class_(**v)
