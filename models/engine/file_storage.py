@@ -46,6 +46,18 @@ class FileStorage:
         otherwise, do nothing.
         If the file doesnt exist, no exception should be raised)
         """
-        if os.path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, 'r') as json_file:
-                return FileStorage.__objects = json.load(json_file)
+        if not os.path.exists(FileStorage.__file_path):
+            return
+
+        with open(FileStorage.__file_path, 'r') as js_f:
+            deserialized = None
+            try:
+                deserialized = json.load(js_f)
+            except json.JSONDecodeError:
+                pass
+
+            if deserialized is None:
+                return
+
+            FileStorage.__objects = {
+                k: v.to_dict() for k, v in deserialized.items()}
