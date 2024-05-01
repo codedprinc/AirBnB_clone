@@ -48,7 +48,5 @@ class FileStorage:
         """
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as js_fl:
-                js_data = json.load(js_fl)
-                for k, v in js_data.items():
-                    clss_name, obj_id = k.split('.')
-                    FileStorage.__objects[k] = [v["__class__"]](**v)
+                 FileStorage.__objects= json.load(js_fl)
+                
