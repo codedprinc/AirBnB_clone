@@ -27,18 +27,17 @@ class FileStorage:
         """
         sets in  __objects the obj with key <obj class name>.id
         """
-
-        if hasattr(obj, 'id'):
-            FileStorage.__objects['{}.id'.format(type(obj).__name__)] =
-            getattr(obj, 'id')
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
 
-        with open(FileStorage.__file_path, 'w') as json_file:
-            json.dump(FileStorage.__objects, json_file)
+        with open(FileStorage.__file_path, 'w') as f:
+            json.dump(
+                {k: v.to_dict() for k, v in FileStorage.__objects.items()}, f)
 
     def reload(self):
         """
