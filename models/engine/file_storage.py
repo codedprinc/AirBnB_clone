@@ -48,4 +48,4 @@ class FileStorage:
         """
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as json_file:
-                return json.load(json_file)
+                return FileStorage.__objects = json.load(json_file)
