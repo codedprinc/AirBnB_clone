@@ -51,6 +51,4 @@ class FileStorage:
                 js_data = json.load(js_fl)
                 for k, v in js_data.items():
                     clss_name, obj_id = k.split('.')
-                    module = __import__(clss_name.lower(), fromlist=[clss_name])
-                    class_ = getattr(module, clss_name)
-                    FileStorage.__objects[k] = class_(**v)
+                    FileStorage.__objects[k] = [v["__class__"]](**v)
