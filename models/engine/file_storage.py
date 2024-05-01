@@ -57,5 +57,6 @@ class FileStorage:
                     obj.__dict__.update(v)
                     obj.id = obj_id
                     FileStorage.__objects[k] = obj
+                print(FileStorage.__objects)
             except Exception:
                 pass
