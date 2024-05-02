@@ -50,7 +50,7 @@ class FileStorage:
             try:
                 with open(FileStorage.__file_path, 'r') as js_fl:
                     data = json.load(js_fl)
-                for k, v in data.items():
+                    for k, v in data.items():
                     clss_name, obj_id = key.split(".")
                     obj_class = globals()[clss_name]
                     obj = obj_class()
@@ -58,5 +58,6 @@ class FileStorage:
                     obj.id = obj_id
                     FileStorage.__objects[k] = obj
                 print(FileStorage.__objects)
+
             except Exception:
                 pass
