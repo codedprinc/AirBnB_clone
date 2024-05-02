@@ -40,8 +40,8 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of BaseModel,
         saves it (to the JSON file) and prints the id.
         """
-        if clss == 'BaseModel':
-            clss = BaseModel()
+        if clss not in models.storage,classes():
+            clss = models.storage.classes()[clss]()
             clss.save()
             print(clss.id)
         elif clss is None or clss == "":
@@ -59,10 +59,10 @@ class HBNBCommand(cmd.Cmd):
         of an instance based on the class name and id
         """
         if clss == "" or clss is None:
-            print("** class name is missing **")
+            print("** class name missing **")
         else:
             words = clss.split(' ')
-            if words[0] != "BaseModel":
+            if words[0] not in models.storage,classes():
                 print("** class doesn't exist **")
             elif len(words) < 2:
                 print("** instance id missing **")
@@ -71,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
                 if key not in models.storage.all():
                     print("** no instance found **")
                 else:
-                    print(models.storage.all())
+                    print(models.storage.all()[key])
 
     def help_show(self):
         print('\n'.join([ 'show <class name> <class.id>',
@@ -83,10 +83,10 @@ class HBNBCommand(cmd.Cmd):
         the class name and id (save the change into the JSON file).
         """
         if clss == "" or clss is None:
-            print("** class name is missing **")
+            print("** class name missing **")
         else:
             words = clss.split(' ')
-            if words[0] != "BaseModel":
+            if words[0] not in models.storage,classes():
                 print("** class doesn't exist **")
             elif len(words) < 2:
                 print("** instance id missing **")
@@ -110,7 +110,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if clss != "":
             words = clss.split(' ')
-            if words[0] != "BaseModel":
+            if words[0] not in models.storage,classes():
                 print("** class doesn't exist **")
             else:
                 ln = [str(obj) for k, obj in models.storage.all().items()
@@ -143,7 +143,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not match:
             print("** class name missing **")
-        elif cls_name != 'BaseModel':
+        elif cls_name not in models.storage,classes():
             print("** class doesn't exist **")
         elif u_id is None:
             print("** instance id missing **")
