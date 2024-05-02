@@ -4,6 +4,7 @@ Module : console.py
 Console 1.0
 
 """
+import re
 import models
 from models.base_model import BaseModel
 import cmd
