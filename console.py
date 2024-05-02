@@ -40,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of BaseModel,
         saves it (to the JSON file) and prints the id.
         """
-        if clss not in models.storage.classes():
+        if clss in models.storage.classes():
             clss = models.storage.classes()[clss]()
             clss.save()
             print(clss.id)
