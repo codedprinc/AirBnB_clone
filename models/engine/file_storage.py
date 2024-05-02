@@ -4,6 +4,7 @@ Module: file_storage.py
 
 Defines  a `FileStorage` class.
 """
+import datetime
 import json
 import os
 
@@ -50,14 +51,72 @@ class FileStorage:
             try:
                 with open(FileStorage.__file_path, 'r') as js_fl:
                     data = json.load(js_fl)
-                    for k, v in data.items():
-                        clss_name, obj_id = key.split(".")
-                        obj_class = globals()[clss_name]
-                        obj = obj_class()
-                        obj.__dict__.update(v)
-                        obj.id = obj_id
-                        FileStorage.__objects[k] = obj
-                print(FileStorage.__objects)
-
+                    data = {k: self.classes()[v["__class__"]](**v)
+                            for k, v in data.items()}
+                    FileStorage.__objects = obj_dict
             except Exception:
                 pass
+
+    def attributes(self):
+        """
+        returns the valid attributes and their types for classnames
+
+        """
+
+        attributes = {
+            "BaseModel":
+                     {"id": str,
+                      "created_at": datetime.datetime,
+                      "updated_at": datetime.datetime},
+            "User":
+                     {"email": str,
+                      "password": str,
+                      "first_name": str,
+                      "last_name": str},
+            "State":
+                     {"name": str},
+            "City":
+                     {"state_id": str,
+                      "name": str},
+            "Place":
+                     {"city_id": str,
+                      "user_id": str,
+                      "name": str,
+                      "description": str,
+                      "number_rooms": int,
+                      "number_bathrooms": int,
+                      "max_guest": int,
+                      "price_by_night": int,
+                      "latitude": float,
+                      "longitude": float,
+                      "amenity_ids": list},
+            "Review":
+            {"place_id": str,
+             "user_id": str,
+             "text": str}
+        }
+        return attributes
+
+    def classes(self):
+        """
+
+        Returns a dictionary of valid classes and their references
+
+        """
+
+        from models.base_model  import BaseModel
+        from models.user  import User
+        from models.state  import State
+        from models.city  import City
+        from models.amenity  import Amenity
+        from models.place  import Place
+        from models.review  import Review
+
+        classes = {"BaseModel" : BaseModel,
+                   "User" : User,
+                   "State" : State,
+                   "City" : City,
+                   "Amenity" : Amenity,
+                   "Place" : Place,
+                   "Review" : Review}
+        return classes
