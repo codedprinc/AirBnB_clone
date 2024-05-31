@@ -53,7 +53,7 @@ class FileStorage:
                     data = json.load(js_fl)
                     data = {k: self.classes()[v["__class__"]](**v)
                             for k, v in data.items()}
-                    FileStorage.__objects = obj_dict
+                    FileStorage.__objects = data
             except Exception:
                 pass
 
